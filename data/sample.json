@@ -1,0 +1,9 @@
+{
+  "event_id": "sample-017-001",
+  "event_type": "LOT_RECEIVED",
+  "aggregate_type": "foraged_lot",
+  "aggregate_id": "mushroom_export_freshness-001",
+  "occurred_at": "2026-09-20T18:00:00+08:00",
+  "version": 1,
+  "summary": "登记野生菌出口鲜度链的首条领域记录"
+}
