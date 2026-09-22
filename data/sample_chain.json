@@ -1,0 +1,659 @@
+[
+  {
+    "event_id": "evt-zone-001",
+    "idempotency_key": "permit:Z-NORTH:2026",
+    "event_type": "ZONE_PERMIT_RECORDED",
+    "aggregate_type": "foraging_zone",
+    "aggregate_id": "Z-NORTH",
+    "occurred_at": "2026-01-01T00:00:00+08:00",
+    "version": 1,
+    "actor": "属地林草局",
+    "summary": "香格里拉北部产区松茸采集许可登记",
+    "zone_id": "Z-NORTH",
+    "zone_public_name": "香格里拉北部产区",
+    "permit_id": "P-2026-018",
+    "species_allowed": [
+      "MATSU- Tricholoma matsutake"
+    ],
+    "valid_from": "2026-01-01",
+    "valid_to": "2026-12-31"
+  },
+  {
+    "event_id": "evt-lot-001-v1",
+    "idempotency_key": "lot:L-001:receive",
+    "event_type": "LOT_RECEIVED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-001",
+    "occurred_at": "2026-09-20T18:00:00+08:00",
+    "version": 1,
+    "actor": "收购点甲",
+    "summary": "小农 C-001 交售鲜松茸 50kg",
+    "collector_id": "C-001",
+    "collector_tier": "SMALLHOLDER",
+    "zone_id": "Z-NORTH",
+    "zone_public_name": "香格里拉北部产区",
+    "species_code": "MATSU",
+    "quantity_kg": 50
+  },
+  {
+    "event_id": "evt-lot-001-v2",
+    "idempotency_key": "lot:L-001:species",
+    "event_type": "SPECIES_CONFIRMED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-001",
+    "occurred_at": "2026-09-20T18:40:00+08:00",
+    "version": 2,
+    "actor": "属地查检员",
+    "summary": "L-001 物种复核确认为松茸",
+    "species_code": "MATSU",
+    "species_confidence": 0.99
+  },
+  {
+    "event_id": "evt-lot-001-v3",
+    "idempotency_key": "lot:L-001:grade",
+    "event_type": "LOT_GRADED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-001",
+    "occurred_at": "2026-09-20T19:10:00+08:00",
+    "version": 3,
+    "actor": "加工线一班",
+    "summary": "L-001 分级 A 级 48kg，剔除 2kg",
+    "grade": "A",
+    "accepted_quantity_kg": 48,
+    "rejected_quantity_kg": 2
+  },
+  {
+    "event_id": "evt-lot-002-v1",
+    "idempotency_key": "lot:L-002:receive",
+    "event_type": "LOT_RECEIVED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T17:00:00+08:00",
+    "version": 1,
+    "actor": "收购点甲",
+    "summary": "小农 C-002 交售鲜松茸 30kg",
+    "collector_id": "C-002",
+    "collector_tier": "SMALLHOLDER",
+    "zone_id": "Z-NORTH",
+    "zone_public_name": "香格里拉北部产区",
+    "species_code": "MATSU",
+    "quantity_kg": 30
+  },
+  {
+    "event_id": "evt-lot-002-v2",
+    "idempotency_key": "lot:L-002:dispute",
+    "event_type": "SPECIES_DISPUTED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T17:30:00+08:00",
+    "version": 2,
+    "actor": "属地查检员",
+    "summary": "L-002 外观与松茸近似种混淆，物种存疑，冻结全部 30kg",
+    "species_code": "MATSU?"
+  },
+  {
+    "event_id": "evt-lot-002-v3",
+    "idempotency_key": "hold:H-001",
+    "event_type": "HOLD_PLACED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T17:35:00+08:00",
+    "version": 3,
+    "actor": "属地查检员",
+    "summary": "因物种存疑冻结 L-002 30kg",
+    "hold_id": "H-001",
+    "hold_reason": "SPECIES_DOUBT",
+    "quantity_kg": 30
+  },
+  {
+    "event_id": "evt-lot-002-v4",
+    "idempotency_key": "lot:L-002:species-ok",
+    "event_type": "SPECIES_CONFIRMED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T21:00:00+08:00",
+    "version": 4,
+    "actor": "属地查检实验室",
+    "summary": "L-002 基因条码复核确认为松茸",
+    "species_code": "MATSU",
+    "species_confidence": 0.995
+  },
+  {
+    "event_id": "evt-lot-002-v5",
+    "idempotency_key": "hold:H-001:release",
+    "event_type": "HOLD_RELEASED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T21:05:00+08:00",
+    "version": 5,
+    "actor": "属地查检实验室",
+    "summary": "解除 H-001 冻结 30kg",
+    "hold_id": "H-001",
+    "release_quantity_kg": 30
+  },
+  {
+    "event_id": "evt-lot-002-v6",
+    "idempotency_key": "lot:L-002:grade",
+    "event_type": "LOT_GRADED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-002",
+    "occurred_at": "2026-09-20T21:30:00+08:00",
+    "version": 6,
+    "actor": "加工线一班",
+    "summary": "L-002 定级 B 级 30kg",
+    "grade": "B",
+    "accepted_quantity_kg": 30
+  },
+  {
+    "event_id": "evt-lot-003-v1",
+    "idempotency_key": "lot:L-003:receive",
+    "event_type": "LOT_RECEIVED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-003",
+    "occurred_at": "2026-09-20T16:00:00+08:00",
+    "version": 1,
+    "actor": "收购点乙",
+    "summary": "庄园 C-003 交售鲜松茸 100kg",
+    "collector_id": "C-003",
+    "collector_tier": "ESTATE",
+    "zone_id": "Z-NORTH",
+    "zone_public_name": "香格里拉北部产区",
+    "species_code": "MATSU",
+    "quantity_kg": 100
+  },
+  {
+    "event_id": "evt-lot-003-v2",
+    "idempotency_key": "lot:L-003:species",
+    "event_type": "SPECIES_CONFIRMED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-003",
+    "occurred_at": "2026-09-20T16:40:00+08:00",
+    "version": 2,
+    "actor": "属地查检员",
+    "summary": "L-003 物种复核确认",
+    "species_code": "MATSU",
+    "species_confidence": 1.0
+  },
+  {
+    "event_id": "evt-lot-003-v3",
+    "idempotency_key": "lot:L-003:grade",
+    "event_type": "LOT_GRADED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "L-003",
+    "occurred_at": "2026-09-20T17:10:00+08:00",
+    "version": 3,
+    "actor": "加工线一班",
+    "summary": "L-003 定级 A 级 100kg",
+    "grade": "A",
+    "accepted_quantity_kg": 100
+  },
+  {
+    "event_id": "evt-batch-001-v1",
+    "idempotency_key": "batch:B-001:create",
+    "event_type": "BATCH_CREATED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-001",
+    "occurred_at": "2026-09-20T22:00:00+08:00",
+    "version": 1,
+    "actor": "加工车间",
+    "summary": "混装批次 B-001：L-001 48kg + L-003 52kg，鲜品 100kg",
+    "product_form": "FRESH",
+    "sources": [
+      {
+        "ref_type": "foraged_lot",
+        "ref_id": "L-001",
+        "quantity_kg": 48
+      },
+      {
+        "ref_type": "foraged_lot",
+        "ref_id": "L-003",
+        "quantity_kg": 52
+      }
+    ]
+  },
+  {
+    "event_id": "evt-batch-004-v1",
+    "idempotency_key": "batch:B-004:create",
+    "event_type": "BATCH_CREATED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-004",
+    "occurred_at": "2026-09-20T22:10:00+08:00",
+    "version": 1,
+    "actor": "加工车间",
+    "summary": "小农批次 B-004：L-002 30kg 鲜品",
+    "product_form": "FRESH",
+    "sources": [
+      {
+        "ref_type": "foraged_lot",
+        "ref_id": "L-002",
+        "quantity_kg": 30
+      }
+    ]
+  },
+  {
+    "event_id": "evt-batch-004-v2",
+    "idempotency_key": "batch:B-004:temp-excursion",
+    "event_type": "TEMP_READING_RECORDED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-004",
+    "occurred_at": "2026-09-21T02:00:00+08:00",
+    "version": 2,
+    "actor": "冷链传感器 T-77",
+    "summary": "B-004 冷库温度 9.2℃ 超过上限 8℃，仅受影响数量待冻结",
+    "sensor_id": "T-77",
+    "temp_stage": "COLD_STORAGE",
+    "temp_c": 9.2,
+    "temp_min_c": 0,
+    "temp_max_c": 8
+  },
+  {
+    "event_id": "evt-batch-004-v3",
+    "idempotency_key": "hold:H-002",
+    "event_type": "HOLD_PLACED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-004",
+    "occurred_at": "2026-09-21T02:15:00+08:00",
+    "version": 3,
+    "actor": "质量系统",
+    "summary": "温度超限只冻结 B-004 受影响的 10kg，其余 20kg 可用",
+    "hold_id": "H-002",
+    "hold_reason": "TEMP_EXCURSION",
+    "quantity_kg": 10
+  },
+  {
+    "event_id": "evt-batch-003-v1",
+    "idempotency_key": "batch:B-003:create",
+    "event_type": "BATCH_CREATED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-003",
+    "occurred_at": "2026-09-21T06:00:00+08:00",
+    "version": 1,
+    "actor": "加工车间",
+    "summary": "出口批次 B-003：拆取 B-001 40kg + L-003 20kg，共 60kg 鲜品",
+    "product_form": "FRESH",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-001",
+        "quantity_kg": 40
+      },
+      {
+        "ref_type": "foraged_lot",
+        "ref_id": "L-003",
+        "quantity_kg": 20
+      }
+    ]
+  },
+  {
+    "event_id": "evt-batch-003-v2",
+    "idempotency_key": "batch:B-003:temp-ok",
+    "event_type": "TEMP_READING_RECORDED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "B-003",
+    "occurred_at": "2026-09-21T08:00:00+08:00",
+    "version": 2,
+    "actor": "冷链传感器 T-12",
+    "summary": "B-003 冷库 3.5℃，温控正常",
+    "sensor_id": "T-12",
+    "temp_stage": "COLD_STORAGE",
+    "temp_c": 3.5,
+    "temp_min_c": 0,
+    "temp_max_c": 8
+  },
+  {
+    "event_id": "evt-sample-001-v1",
+    "idempotency_key": "sample:S-001:taken",
+    "event_type": "SAMPLE_TAKEN",
+    "aggregate_type": "inspection_sample",
+    "aggregate_id": "S-001",
+    "occurred_at": "2026-09-20T22:20:00+08:00",
+    "version": 1,
+    "actor": "属地查检实验室",
+    "summary": "B-001 抽样送检",
+    "sample_id": "S-001",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-001",
+        "quantity_kg": 0.5
+      }
+    ]
+  },
+  {
+    "event_id": "evt-sample-001-v2",
+    "idempotency_key": "sample:S-001:result",
+    "event_type": "SAMPLE_RESULTED",
+    "aggregate_type": "inspection_sample",
+    "aggregate_id": "S-001",
+    "occurred_at": "2026-09-21T01:00:00+08:00",
+    "version": 2,
+    "actor": "属地查检实验室",
+    "summary": "S-001 农残与微生物检测合格",
+    "sample_id": "S-001",
+    "sample_result": "PASS"
+  },
+  {
+    "event_id": "evt-rule-jp-old",
+    "idempotency_key": "rule:JP:RV-2026-06",
+    "event_type": "DESTINATION_RULE_PUBLISHED",
+    "aggregate_type": "destination_rule",
+    "aggregate_id": "RV-JP-2026-06",
+    "occurred_at": "2026-06-01T00:00:00+08:00",
+    "version": 1,
+    "actor": "海关规则库",
+    "summary": "日本松茸准入规则旧版（已失效）",
+    "country_code": "JP",
+    "rule_version": "RV-2026-06",
+    "effective_from": "2026-06-01",
+    "effective_to": "2026-08-31",
+    "requirements": {
+      "certificate": "PHYTO_OLD"
+    }
+  },
+  {
+    "event_id": "evt-rule-jp-new",
+    "idempotency_key": "rule:JP:RV-2026-09",
+    "event_type": "DESTINATION_RULE_PUBLISHED",
+    "aggregate_type": "destination_rule",
+    "aggregate_id": "RV-JP-2026-09",
+    "occurred_at": "2026-09-01T00:00:00+08:00",
+    "version": 1,
+    "actor": "海关规则库",
+    "summary": "日本松茸准入规则新版，9 月 1 日起生效",
+    "country_code": "JP",
+    "rule_version": "RV-2026-09",
+    "effective_from": "2026-09-01",
+    "requirements": {
+      "certificate": "PHYTO_E",
+      "radionuclide_screen": true
+    }
+  },
+  {
+    "event_id": "evt-order-001",
+    "idempotency_key": "order:O-001",
+    "event_type": "ORDER_PLACED",
+    "aggregate_type": "customer_order",
+    "aggregate_id": "O-001",
+    "occurred_at": "2026-09-19T09:00:00+08:00",
+    "version": 1,
+    "actor": "东京客户 K-1",
+    "summary": "日本客户鲜松茸订单 60kg，优先订单，保鲜窗口 72 小时",
+    "order_id": "O-001",
+    "order_tier": "PREMIUM",
+    "destination_country": "JP",
+    "fresh_window_hours": 72
+  },
+  {
+    "event_id": "evt-order-002",
+    "idempotency_key": "order:O-002",
+    "event_type": "ORDER_PLACED",
+    "aggregate_type": "customer_order",
+    "aggregate_id": "O-002",
+    "occurred_at": "2026-09-20T12:00:00+08:00",
+    "version": 1,
+    "actor": "大阪客户 K-2",
+    "summary": "日本客户鲜松茸订单 30kg，标准订单，保鲜窗口 72 小时",
+    "order_id": "O-002",
+    "order_tier": "STANDARD",
+    "destination_country": "JP",
+    "fresh_window_hours": 72
+  },
+  {
+    "event_id": "evt-booking-001-v1",
+    "idempotency_key": "booking:BK-001:request",
+    "event_type": "BOOKING_REQUESTED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "BK-001",
+    "occurred_at": "2026-09-21T09:00:00+08:00",
+    "version": 1,
+    "actor": "货代",
+    "summary": "为 O-001 订 9 月 22 日早班航班 60kg 舱位",
+    "booking_id": "BK-001",
+    "order_id": "O-001",
+    "transport_mode": "AIR",
+    "slot_at": "2026-09-22T08:00:00+08:00",
+    "capacity_kg": 60,
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-003",
+        "quantity_kg": 60
+      }
+    ]
+  },
+  {
+    "event_id": "evt-booking-001-v2",
+    "idempotency_key": "booking:BK-001:confirm",
+    "event_type": "BOOKING_CONFIRMED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "BK-001",
+    "occurred_at": "2026-09-21T10:00:00+08:00",
+    "version": 2,
+    "actor": "航空公司",
+    "summary": "BK-001 舱位确认",
+    "booking_id": "BK-001",
+    "slot_at": "2026-09-22T08:00:00+08:00",
+    "capacity_kg": 60
+  },
+  {
+    "event_id": "evt-booking-002-v1",
+    "idempotency_key": "booking:BK-002:request",
+    "event_type": "BOOKING_REQUESTED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "BK-002",
+    "occurred_at": "2026-09-21T09:10:00+08:00",
+    "version": 1,
+    "actor": "货代",
+    "summary": "为 O-002 订 9 月 22 日晚班陆运 30kg（小农批次）",
+    "booking_id": "BK-002",
+    "order_id": "O-002",
+    "transport_mode": "LAND",
+    "slot_at": "2026-09-22T22:00:00+08:00",
+    "capacity_kg": 30,
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-004",
+        "quantity_kg": 30
+      }
+    ]
+  },
+  {
+    "event_id": "evt-booking-002-v2",
+    "idempotency_key": "booking:BK-002:revise",
+    "event_type": "BOOKING_REVISED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "BK-002",
+    "occurred_at": "2026-09-21T15:00:00+08:00",
+    "version": 2,
+    "actor": "陆运口岸",
+    "summary": "口岸预约调整，BK-002 改至 9 月 23 日早班，触发重排",
+    "booking_id": "BK-002",
+    "slot_at": "2026-09-23T08:00:00+08:00",
+    "capacity_kg": 30
+  },
+  {
+    "event_id": "evt-cert-001",
+    "idempotency_key": "cert:C-001",
+    "event_type": "CERTIFICATE_ISSUED",
+    "aggregate_type": "certificate",
+    "aggregate_id": "C-001",
+    "occurred_at": "2026-09-21T05:00:00+08:00",
+    "version": 1,
+    "actor": "隶属海关",
+    "summary": "签发 B-001 植物检疫电子证书（旧规则版本，留档对比）",
+    "certificate_id": "C-001",
+    "certificate_no": "C-2026-001",
+    "destination_country": "JP",
+    "rule_version": "RV-2026-09",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-001",
+        "quantity_kg": 100
+      }
+    ]
+  },
+  {
+    "event_id": "evt-cert-002",
+    "idempotency_key": "cert:C-002",
+    "event_type": "CERTIFICATE_ISSUED",
+    "aggregate_type": "certificate",
+    "aggregate_id": "C-002",
+    "occurred_at": "2026-09-21T11:00:00+08:00",
+    "version": 1,
+    "actor": "隶属海关",
+    "summary": "签发 B-003 植物检疫电子证书，初版箱号有误",
+    "certificate_id": "C-002",
+    "certificate_no": "C-2026-002",
+    "destination_country": "JP",
+    "rule_version": "RV-2026-09",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-003",
+        "quantity_kg": 60
+      }
+    ]
+  },
+  {
+    "event_id": "evt-cert-003",
+    "idempotency_key": "cert:C-003",
+    "event_type": "CERTIFICATE_CORRECTED",
+    "aggregate_type": "certificate",
+    "aggregate_id": "C-003",
+    "occurred_at": "2026-09-21T13:00:00+08:00",
+    "version": 1,
+    "actor": "隶属海关",
+    "summary": "更正 B-003 证书箱号，新证 C-003 取代 C-002，旧证留档不覆盖",
+    "certificate_id": "C-003",
+    "certificate_no": "C-2026-002-R1",
+    "supersedes_certificate_id": "C-002",
+    "destination_country": "JP",
+    "rule_version": "RV-2026-09",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-003",
+        "quantity_kg": 60
+      }
+    ]
+  },
+  {
+    "event_id": "evt-shipment-001",
+    "idempotency_key": "shipment:SH-001",
+    "event_type": "SHIPMENT_DISPATCHED",
+    "aggregate_type": "shipment",
+    "aggregate_id": "SH-001",
+    "occurred_at": "2026-09-22T10:00:00+08:00",
+    "version": 1,
+    "actor": "货代",
+    "summary": "B-003 60kg 鲜松茸空运出运日本（O-001）",
+    "shipment_id": "SH-001",
+    "order_id": "O-001",
+    "booking_id": "BK-001",
+    "shipped_at": "2026-09-22T10:00:00+08:00",
+    "sources": [
+      {
+        "ref_type": "processing_batch",
+        "ref_id": "B-003",
+        "quantity_kg": 60
+      }
+    ]
+  },
+  {
+    "event_id": "evt-clearance-001-v1",
+    "idempotency_key": "clearance:CL-001:apply",
+    "event_type": "CLEARANCE_APPLIED",
+    "aggregate_type": "customs_clearance",
+    "aggregate_id": "CL-001",
+    "occurred_at": "2026-09-22T12:00:00+08:00",
+    "version": 1,
+    "actor": "报关行",
+    "summary": "昆明机场口岸申报，电子证书 C-003 关联实物批次 B-003",
+    "clearance_id": "CL-001",
+    "shipment_id": "SH-001",
+    "border_port": "KMG-AIR"
+  },
+  {
+    "event_id": "evt-clearance-001-v2",
+    "idempotency_key": "clearance:CL-001:inspect",
+    "event_type": "CLEARANCE_INSPECTED",
+    "aggregate_type": "customs_clearance",
+    "aggregate_id": "CL-001",
+    "occurred_at": "2026-09-22T14:00:00+08:00",
+    "version": 2,
+    "actor": "昆明海关",
+    "summary": "口岸核对电子证书、封识与实物批次一致，查验合格",
+    "clearance_id": "CL-001",
+    "inspection_result": "PASS"
+  },
+  {
+    "event_id": "evt-clearance-001-v3",
+    "idempotency_key": "clearance:CL-001:release",
+    "event_type": "CLEARANCE_RELEASED",
+    "aggregate_type": "customs_clearance",
+    "aggregate_id": "CL-001",
+    "occurred_at": "2026-09-22T15:00:00+08:00",
+    "version": 3,
+    "actor": "昆明海关",
+    "summary": "CL-001 放行",
+    "clearance_id": "CL-001"
+  },
+  {
+    "event_id": "evt-delivery-001",
+    "idempotency_key": "delivery:D-001",
+    "event_type": "DELIVERY_ACCEPTED",
+    "aggregate_type": "delivery",
+    "aggregate_id": "D-001",
+    "occurred_at": "2026-09-23T09:00:00+09:00",
+    "version": 1,
+    "actor": "东京客户 K-1",
+    "summary": "客户实收 58kg，2kg 运输机械损伤拒收",
+    "delivery_id": "D-001",
+    "shipment_id": "SH-001",
+    "accepted_quantity_kg": 58,
+    "rejected_quantity_kg": 2,
+    "quality_reasons": [
+      "PHYSICAL_DAMAGE"
+    ]
+  },
+  {
+    "event_id": "evt-settlement-001",
+    "idempotency_key": "settlement:ST-001",
+    "event_type": "SETTLEMENT_CALCULATED",
+    "aggregate_type": "settlement",
+    "aggregate_id": "ST-001",
+    "occurred_at": "2026-09-23T11:00:00+09:00",
+    "version": 1,
+    "actor": "结算系统",
+    "summary": "按最终接收重量与质量原因与小农 C-001 结算 18.56kg",
+    "settlement_id": "ST-001",
+    "collector_id": "C-001",
+    "accepted_quantity_kg": 18.56,
+    "unit_price_cny": 700,
+    "amount_cny": 12992.0,
+    "quality_reasons": [
+      "PHYSICAL_DAMAGE"
+    ]
+  },
+  {
+    "event_id": "evt-settlement-002",
+    "idempotency_key": "settlement:ST-002",
+    "event_type": "SETTLEMENT_CALCULATED",
+    "aggregate_type": "settlement",
+    "aggregate_id": "ST-002",
+    "occurred_at": "2026-09-23T11:05:00+09:00",
+    "version": 1,
+    "actor": "结算系统",
+    "summary": "按最终接收重量与质量原因与庄园 C-003 结算 39.44kg",
+    "settlement_id": "ST-002",
+    "collector_id": "C-003",
+    "accepted_quantity_kg": 39.44,
+    "unit_price_cny": 700,
+    "amount_cny": 27608.0,
+    "quality_reasons": [
+      "PHYSICAL_DAMAGE"
+    ]
+  }
+]

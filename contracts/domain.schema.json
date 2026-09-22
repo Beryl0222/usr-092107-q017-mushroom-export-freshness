@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "野生菌出口鲜度链领域事件",
+  "description": "覆盖采集区域许可、菌农交接、物种复核、分级称重、加工批次、温控、检验、证书版本、目的国规则、订舱、口岸查验、签收与结算的事件信封。记录只追加：标识、发生时间、版本不得原地改写，更正以新后继记录表达。",
   "type": "object",
   "required": [
     "event_id",
@@ -12,45 +13,202 @@
     "summary"
   ],
   "properties": {
-    "event_id": {
-      "type": "string",
-      "minLength": 1
-    },
+    "event_id": { "type": "string", "minLength": 1 },
     "event_type": {
       "type": "string",
       "enum": [
+        "ZONE_PERMIT_RECORDED",
         "LOT_RECEIVED",
         "SPECIES_CONFIRMED",
+        "SPECIES_DISPUTED",
+        "LOT_GRADED",
+        "HOLD_PLACED",
+        "HOLD_RELEASED",
+        "BATCH_CREATED",
+        "BATCH_REPACKED",
+        "BATCH_FORM_CHANGED",
+        "TEMP_READING_RECORDED",
+        "SAMPLE_TAKEN",
+        "SAMPLE_RESULTED",
         "CERTIFICATE_ISSUED",
+        "CERTIFICATE_CORRECTED",
+        "DESTINATION_RULE_PUBLISHED",
+        "ORDER_PLACED",
+        "BOOKING_REQUESTED",
         "BOOKING_REVISED",
-        "DELIVERY_ACCEPTED"
+        "BOOKING_CONFIRMED",
+        "SHIPMENT_DISPATCHED",
+        "CLEARANCE_APPLIED",
+        "CLEARANCE_INSPECTED",
+        "CLEARANCE_RELEASED",
+        "DELIVERY_ACCEPTED",
+        "SETTLEMENT_CALCULATED"
       ]
     },
     "aggregate_type": {
       "type": "string",
       "enum": [
+        "foraging_zone",
         "foraged_lot",
         "processing_batch",
-        "export_clearance",
-        "transport_booking"
+        "inspection_sample",
+        "certificate",
+        "destination_rule",
+        "customer_order",
+        "transport_booking",
+        "shipment",
+        "customs_clearance",
+        "delivery",
+        "settlement"
       ]
     },
-    "aggregate_id": {
+    "aggregate_id": { "type": "string", "minLength": 1 },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "version": { "type": "integer", "minimum": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+
+    "idempotency_key": { "type": "string", "minLength": 1 },
+    "actor": { "type": "string", "minLength": 1 },
+
+    "permit_id": { "type": "string" },
+    "zone_id": { "type": "string" },
+    "zone_public_name": { "type": "string" },
+    "species_allowed": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "valid_from": { "type": "string", "format": "date" },
+    "valid_to": { "type": "string", "format": "date" },
+
+    "collector_id": { "type": "string" },
+    "collector_tier": { "type": "string", "enum": ["SMALLHOLDER", "COOPERATIVE", "ESTATE"] },
+    "quantity_kg": { "type": "number", "exclusiveMinimum": 0 },
+    "species_code": { "type": "string" },
+    "species_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "grade": { "type": "string", "enum": ["A", "B", "C"] },
+    "accepted_quantity_kg": { "type": "number", "minimum": 0 },
+    "rejected_quantity_kg": { "type": "number", "minimum": 0 },
+
+    "hold_id": { "type": "string" },
+    "hold_reason": {
       "type": "string",
-      "minLength": 1
+      "enum": ["SPECIES_DOUBT", "TEMP_EXCURSION", "INSPECTION_HOLD", "CERT_PENDING", "DOC_GAP", "CUSTOMS_HOLD"]
     },
-    "occurred_at": {
-      "type": "string",
-      "format": "date-time"
+    "release_quantity_kg": { "type": "number", "exclusiveMinimum": 0 },
+
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref_type", "ref_id", "quantity_kg"],
+        "properties": {
+          "ref_type": { "type": "string", "enum": ["foraged_lot", "processing_batch"] },
+          "ref_id": { "type": "string" },
+          "quantity_kg": { "type": "number", "exclusiveMinimum": 0 }
+        },
+        "additionalProperties": true
+      },
+      "minItems": 1
     },
-    "version": {
-      "type": "integer",
-      "minimum": 1
+    "product_form": { "type": "string", "enum": ["FRESH", "FROZEN", "DRIED"] },
+
+    "temp_c": { "type": "number" },
+    "temp_min_c": { "type": "number" },
+    "temp_max_c": { "type": "number" },
+    "temp_stage": { "type": "string", "enum": ["COLLECTION", "PROCESSING", "COLD_STORAGE", "AIR", "LAND", "PORT", "IN_TRANSIT"] },
+    "sensor_id": { "type": "string" },
+
+    "sample_id": { "type": "string" },
+    "sample_result": { "type": "string", "enum": ["PASS", "FAIL", "PENDING"] },
+
+    "certificate_id": { "type": "string" },
+    "certificate_no": { "type": "string" },
+    "supersedes_certificate_id": { "type": "string" },
+    "destination_country": { "type": "string" },
+    "rule_version": { "type": "string" },
+    "document_ref": { "type": "string" },
+
+    "country_code": { "type": "string" },
+    "effective_from": { "type": "string", "format": "date" },
+    "effective_to": { "type": "string", "format": "date" },
+    "requirements": { "type": "object" },
+
+    "order_id": { "type": "string" },
+    "order_tier": { "type": "string", "enum": ["PREMIUM", "STANDARD"] },
+    "fresh_window_hours": { "type": "integer", "exclusiveMinimum": 0 },
+
+    "booking_id": { "type": "string" },
+    "shipment_id": { "type": "string" },
+    "clearance_id": { "type": "string" },
+    "delivery_id": { "type": "string" },
+    "settlement_id": { "type": "string" },
+    "transport_mode": { "type": "string", "enum": ["AIR", "LAND"] },
+    "border_port": { "type": "string" },
+    "slot_at": { "type": "string", "format": "date-time" },
+    "capacity_kg": { "type": "number", "exclusiveMinimum": 0 },
+    "shipped_at": { "type": "string", "format": "date-time" },
+    "inspection_result": { "type": "string", "enum": ["PASS", "FAIL", "HOLD"] },
+
+    "quality_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["GRADED_DOWN", "SPOILED", "TEMP_DAMAGE", "PHYSICAL_DAMAGE", "SPECIES_MISMATCH", "FORM_CHANGED"]
+      }
     },
-    "summary": {
-      "type": "string",
-      "minLength": 1
-    }
+    "unit_price_cny": { "type": "number", "minimum": 0 },
+    "amount_cny": { "type": "number", "minimum": 0 }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "oneOf": [
+    { "properties": { "event_type": { "const": "ZONE_PERMIT_RECORDED" } },
+      "required": ["zone_id", "permit_id", "species_allowed", "valid_from"] },
+    { "properties": { "event_type": { "const": "LOT_RECEIVED" } },
+      "required": ["collector_id", "collector_tier", "zone_id", "species_code", "quantity_kg"] },
+    { "properties": { "event_type": { "const": "SPECIES_CONFIRMED" } },
+      "required": ["species_code", "species_confidence"] },
+    { "properties": { "event_type": { "const": "SPECIES_DISPUTED" } },
+      "required": ["species_code"] },
+    { "properties": { "event_type": { "const": "LOT_GRADED" } },
+      "required": ["grade", "accepted_quantity_kg"] },
+    { "properties": { "event_type": { "const": "HOLD_PLACED" } },
+      "required": ["hold_id", "hold_reason", "quantity_kg"] },
+    { "properties": { "event_type": { "const": "HOLD_RELEASED" } },
+      "required": ["hold_id", "release_quantity_kg"] },
+    { "properties": { "event_type": { "const": "BATCH_CREATED" } },
+      "required": ["product_form", "sources"] },
+    { "properties": { "event_type": { "const": "BATCH_REPACKED" } },
+      "required": ["sources"] },
+    { "properties": { "event_type": { "const": "BATCH_FORM_CHANGED" } },
+      "required": ["product_form"] },
+    { "properties": { "event_type": { "const": "TEMP_READING_RECORDED" } },
+      "required": ["temp_c", "temp_stage", "sensor_id"] },
+    { "properties": { "event_type": { "const": "SAMPLE_TAKEN" } },
+      "required": ["sample_id"] },
+    { "properties": { "event_type": { "const": "SAMPLE_RESULTED" } },
+      "required": ["sample_id", "sample_result"] },
+    { "properties": { "event_type": { "const": "CERTIFICATE_ISSUED" } },
+      "required": ["certificate_id", "certificate_no", "destination_country", "rule_version"] },
+    { "properties": { "event_type": { "const": "CERTIFICATE_CORRECTED" } },
+      "required": ["certificate_id", "certificate_no", "supersedes_certificate_id"] },
+    { "properties": { "event_type": { "const": "DESTINATION_RULE_PUBLISHED" } },
+      "required": ["country_code", "rule_version", "effective_from"] },
+    { "properties": { "event_type": { "const": "ORDER_PLACED" } },
+      "required": ["order_id", "order_tier", "destination_country", "fresh_window_hours"] },
+    { "properties": { "event_type": { "const": "BOOKING_REQUESTED" } },
+      "required": ["booking_id", "order_id", "transport_mode", "slot_at", "capacity_kg"] },
+    { "properties": { "event_type": { "const": "BOOKING_REVISED" } },
+      "required": ["booking_id", "slot_at"] },
+    { "properties": { "event_type": { "const": "BOOKING_CONFIRMED" } },
+      "required": ["booking_id", "slot_at", "capacity_kg"] },
+    { "properties": { "event_type": { "const": "SHIPMENT_DISPATCHED" } },
+      "required": ["shipment_id", "shipped_at"] },
+    { "properties": { "event_type": { "const": "CLEARANCE_APPLIED" } },
+      "required": ["clearance_id", "shipment_id", "border_port"] },
+    { "properties": { "event_type": { "const": "CLEARANCE_INSPECTED" } },
+      "required": ["clearance_id", "inspection_result"] },
+    { "properties": { "event_type": { "const": "CLEARANCE_RELEASED" } },
+      "required": ["clearance_id"] },
+    { "properties": { "event_type": { "const": "DELIVERY_ACCEPTED" } },
+      "required": ["delivery_id", "shipment_id", "accepted_quantity_kg", "quality_reasons"] },
+    { "properties": { "event_type": { "const": "SETTLEMENT_CALCULATED" } },
+      "required": ["settlement_id", "collector_id", "accepted_quantity_kg", "unit_price_cny", "amount_cny"] }
+  ]
 }
