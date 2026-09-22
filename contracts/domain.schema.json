@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "野生菌出口鲜度链领域事件",
+  "description": "香格里拉松茸等野生菌从采集户交货到海外客户签收的事件信封契约。event_id 为跨系统唯一标识，重复投递必须忽略；记录一经接收不得原地改写，更正以新的后继事件表达。",
   "type": "object",
   "required": [
     "event_id",
@@ -14,25 +15,47 @@
   "properties": {
     "event_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "全局唯一的事件标识，各系统以此去重，防止多系统重复登记。"
     },
     "event_type": {
       "type": "string",
       "enum": [
+        "PERMIT_REGISTERED",
         "LOT_RECEIVED",
         "SPECIES_CONFIRMED",
+        "LOT_GRADED",
+        "HOLD_PLACED",
+        "HOLD_RELEASED",
+        "BATCH_CREATED",
+        "FORM_CHANGED",
+        "TEMPERATURE_LOGGED",
+        "SAMPLE_TESTED",
+        "RULE_PUBLISHED",
+        "CLEARANCE_FILED",
+        "RULE_MATCHED",
         "CERTIFICATE_ISSUED",
+        "CERTIFICATE_CORRECTED",
+        "BOOKING_RESERVED",
         "BOOKING_REVISED",
-        "DELIVERY_ACCEPTED"
+        "CUSTOMS_CHECKED",
+        "CLEARANCE_RELEASED",
+        "SHIPMENT_DISPATCHED",
+        "DELIVERY_ACCEPTED",
+        "SETTLEMENT_RECORDED"
       ]
     },
     "aggregate_type": {
       "type": "string",
       "enum": [
+        "collection_permit",
         "foraged_lot",
         "processing_batch",
+        "shipment",
         "export_clearance",
-        "transport_booking"
+        "transport_booking",
+        "destination_rule",
+        "settlement"
       ]
     },
     "aggregate_id": {
@@ -41,16 +64,135 @@
     },
     "occurred_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "事件发生时间（含时区）。接收后不得改写。"
     },
     "version": {
       "type": "integer",
-      "minimum": 1
+      "minimum": 1,
+      "description": "同一聚合内从 1 起单调递增。"
     },
     "summary": {
       "type": "string",
       "minLength": 1
+    },
+    "source_system": {
+      "type": "string",
+      "description": "登记来源系统，便于跨系统对账。"
+    },
+    "quantity": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number", "exclusiveMinimum": 0 },
+        "unit": { "type": "string", "enum": ["kg", "box", "piece"] }
+      },
+      "additionalProperties": false,
+      "description": "数量。冻结、解冻、分级、形态变更与结算均按数量登记，只影响相关数量而非整批。"
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["aggregate_type", "aggregate_id"],
+        "properties": {
+          "aggregate_type": { "type": "string" },
+          "aggregate_id": { "type": "string", "minLength": 1 },
+          "quantity": { "$ref": "#/properties/quantity" }
+        },
+        "additionalProperties": false
+      },
+      "description": "加工批次的投入来源。混装、拆箱后凭此追溯到原料批。"
+    },
+    "hold_reason": {
+      "type": "string",
+      "enum": ["species_doubt", "temperature_breach", "document_gap", "other"],
+      "description": "冻结原因：物种存疑、温度超限、单证缺口或其他。"
+    },
+    "from_form": {
+      "type": "string",
+      "enum": ["fresh", "frozen", "dried"]
+    },
+    "to_form": {
+      "type": "string",
+      "enum": ["fresh", "frozen", "dried"]
+    },
+    "supersedes": {
+      "type": "string",
+      "minLength": 1,
+      "description": "被更正证书的 event_id。旧版证书保留可查，更正不得覆盖旧版。"
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "匹配到的目的国规则（destination_rule 的 aggregate_id）。"
+    },
+    "shipment_date": {
+      "type": "string",
+      "format": "date",
+      "description": "出运日期。目的国规则按出运日期落在规则生效区间来匹配。"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["internal", "customs", "customer"],
+      "description": "可见范围。customer 级记录不得包含具体采集点，只给到乡镇/县域级产地。"
+    },
+    "origin_region": {
+      "type": "string",
+      "description": "对客户展示的粗粒度产地（如云南省迪庆州香格里拉市），不含具体采集点。"
+    },
+    "collection_point": {
+      "type": "string",
+      "description": "具体采集点，仅 internal/customs 可见，禁止出现在 customer 级记录。"
+    },
+    "deductions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["reason", "quantity"],
+        "properties": {
+          "reason": { "type": "string" },
+          "quantity": { "$ref": "#/properties/quantity" }
+        },
+        "additionalProperties": false
+      },
+      "description": "结算扣减项：按质量原因（如温度超限转冻、等级不符）登记对应数量。"
     }
   },
+  "allOf": [
+    {
+      "if": { "properties": { "event_type": { "const": "HOLD_PLACED" } } },
+      "then": { "required": ["quantity", "hold_reason"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "HOLD_RELEASED" } } },
+      "then": { "required": ["quantity", "hold_reason"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "BATCH_CREATED" } } },
+      "then": { "required": ["inputs"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "FORM_CHANGED" } } },
+      "then": { "required": ["quantity", "from_form", "to_form"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "CERTIFICATE_CORRECTED" } } },
+      "then": { "required": ["supersedes"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "RULE_MATCHED" } } },
+      "then": { "required": ["rule_id", "shipment_date"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "SETTLEMENT_RECORDED" } } },
+      "then": { "required": ["quantity"] }
+    },
+    {
+      "if": { "required": ["visibility"], "properties": { "visibility": { "const": "customer" } } },
+      "then": { "not": { "required": ["collection_point"] } }
+    }
+  ],
   "additionalProperties": true
 }

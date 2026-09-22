@@ -1,0 +1,305 @@
+[
+  {
+    "event_id": "evt-2026-0001",
+    "event_type": "RULE_PUBLISHED",
+    "aggregate_type": "destination_rule",
+    "aggregate_id": "rule-jp-matsutake-2026",
+    "occurred_at": "2026-04-01T00:00:00+09:00",
+    "version": 1,
+    "summary": "发布日本市场鲜松茸准入规则（2026 年度），按出运日期匹配生效区间",
+    "source_system": "trade-compliance",
+    "destination": "JP",
+    "effective_from": "2026-04-01",
+    "effective_to": "2027-03-31"
+  },
+  {
+    "event_id": "evt-2026-0002",
+    "event_type": "PERMIT_REGISTERED",
+    "aggregate_type": "collection_permit",
+    "aggregate_id": "permit-shxl-gezan-2026",
+    "occurred_at": "2026-09-18T09:00:00+08:00",
+    "version": 1,
+    "summary": "登记香格里拉市格咱乡松茸采集区域许可",
+    "source_system": "forestry-permit",
+    "permitted_area": "香格里拉市格咱乡",
+    "species_allowed": ["Tricholoma matsutake"]
+  },
+  {
+    "event_id": "evt-2026-0003",
+    "event_type": "LOT_RECEIVED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "lot-0920-01",
+    "occurred_at": "2026-09-20T06:30:00+08:00",
+    "version": 1,
+    "summary": "采集户交货野生松茸 40kg，凭格咱乡采集许可接收",
+    "source_system": "collection-dock",
+    "collector_ref": "collector-A-017",
+    "permit_ref": "permit-shxl-gezan-2026",
+    "collection_point": "格咱乡3号采集点",
+    "quantity": { "value": 40, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0004",
+    "event_type": "SPECIES_CONFIRMED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "lot-0920-01",
+    "occurred_at": "2026-09-20T08:00:00+08:00",
+    "version": 2,
+    "summary": "物种复核确认为松茸（Tricholoma matsutake），无疑似混杂种",
+    "source_system": "lab-review",
+    "species": "Tricholoma matsutake"
+  },
+  {
+    "event_id": "evt-2026-0005",
+    "event_type": "LOT_GRADED",
+    "aggregate_type": "foraged_lot",
+    "aggregate_id": "lot-0920-01",
+    "occurred_at": "2026-09-20T09:00:00+08:00",
+    "version": 3,
+    "summary": "分级称重：A 级 38kg、B 级 2kg",
+    "source_system": "grading-line",
+    "grades": [
+      { "grade": "A", "quantity": { "value": 38, "unit": "kg" } },
+      { "grade": "B", "quantity": { "value": 2, "unit": "kg" } }
+    ]
+  },
+  {
+    "event_id": "evt-2026-0006",
+    "event_type": "BATCH_CREATED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T10:00:00+08:00",
+    "version": 1,
+    "summary": "建立加工批次，投入 lot-0920-01 全部 40kg",
+    "source_system": "processing-mes",
+    "inputs": [
+      {
+        "aggregate_type": "foraged_lot",
+        "aggregate_id": "lot-0920-01",
+        "quantity": { "value": 40, "unit": "kg" }
+      }
+    ]
+  },
+  {
+    "event_id": "evt-2026-0007",
+    "event_type": "TEMPERATURE_LOGGED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T10:30:00+08:00",
+    "version": 2,
+    "summary": "预冷库温度 2.4°C，正常",
+    "source_system": "coldchain-iot",
+    "celsius": 2.4
+  },
+  {
+    "event_id": "evt-2026-0008",
+    "event_type": "TEMPERATURE_LOGGED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T14:00:00+08:00",
+    "version": 3,
+    "summary": "分拣区温度 6.8°C，超出鲜品上限",
+    "source_system": "coldchain-iot",
+    "celsius": 6.8
+  },
+  {
+    "event_id": "evt-2026-0009",
+    "event_type": "HOLD_PLACED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T14:05:00+08:00",
+    "version": 4,
+    "summary": "温度超限，仅冻结受影响的 5kg，其余继续流转",
+    "source_system": "quality-qms",
+    "hold_reason": "temperature_breach",
+    "quantity": { "value": 5, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0010",
+    "event_type": "FORM_CHANGED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T16:00:00+08:00",
+    "version": 5,
+    "summary": "冻结的 5kg 由鲜品改冻品加工，避免报废",
+    "source_system": "processing-mes",
+    "from_form": "fresh",
+    "to_form": "frozen",
+    "quantity": { "value": 5, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0011",
+    "event_type": "HOLD_RELEASED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T16:10:00+08:00",
+    "version": 6,
+    "summary": "5kg 以冻品形态解除冻结，转入冻品库存",
+    "source_system": "quality-qms",
+    "hold_reason": "temperature_breach",
+    "quantity": { "value": 5, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0012",
+    "event_type": "SAMPLE_TESTED",
+    "aggregate_type": "processing_batch",
+    "aggregate_id": "batch-0920-01",
+    "occurred_at": "2026-09-20T18:00:00+08:00",
+    "version": 7,
+    "summary": "属地查检抽样检验合格",
+    "source_system": "lab-review",
+    "result": "passed"
+  },
+  {
+    "event_id": "evt-2026-0013",
+    "event_type": "CLEARANCE_FILED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-21T09:00:00+08:00",
+    "version": 1,
+    "summary": "就 batch-0920-01 鲜品部分向属地海关申报查检",
+    "source_system": "customs-edi",
+    "references": [
+      { "aggregate_type": "processing_batch", "aggregate_id": "batch-0920-01" }
+    ]
+  },
+  {
+    "event_id": "evt-2026-0014",
+    "event_type": "RULE_MATCHED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-21T10:00:00+08:00",
+    "version": 2,
+    "summary": "按出运日期 2026-09-22 匹配日本准入规则 rule-jp-matsutake-2026",
+    "source_system": "trade-compliance",
+    "rule_id": "rule-jp-matsutake-2026",
+    "shipment_date": "2026-09-22"
+  },
+  {
+    "event_id": "evt-2026-0015",
+    "event_type": "CERTIFICATE_ISSUED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-21T11:00:00+08:00",
+    "version": 3,
+    "summary": "签发原产地证 cert-origin-0921-01，鲜品重量误录为 40kg",
+    "source_system": "customs-edi",
+    "certificate_type": "origin",
+    "certificate_id": "cert-origin-0921-01"
+  },
+  {
+    "event_id": "evt-2026-0016",
+    "event_type": "CERTIFICATE_CORRECTED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-21T11:30:00+08:00",
+    "version": 4,
+    "summary": "更正原产地证鲜品重量为 35kg（5kg 已转冻品），旧版 cert-origin-0921-01 保留可查",
+    "source_system": "customs-edi",
+    "certificate_type": "origin",
+    "certificate_id": "cert-origin-0921-02",
+    "supersedes": "evt-2026-0015"
+  },
+  {
+    "event_id": "evt-2026-0017",
+    "event_type": "BOOKING_RESERVED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "booking-cz389-0922",
+    "occurred_at": "2026-09-21T13:00:00+08:00",
+    "version": 1,
+    "summary": "预约 9 月 22 日昆明—大阪航班冷藏舱位 7 箱",
+    "source_system": "freight-booking",
+    "route": "KMG-KIX",
+    "quantity": { "value": 7, "unit": "box" }
+  },
+  {
+    "event_id": "evt-2026-0018",
+    "event_type": "BOOKING_REVISED",
+    "aggregate_type": "transport_booking",
+    "aggregate_id": "booking-cz389-0922",
+    "occurred_at": "2026-09-21T15:00:00+08:00",
+    "version": 2,
+    "summary": "航班时刻变更，按剩余保鲜时长与订单等级重排后保留原舱位",
+    "source_system": "freight-booking",
+    "reason": "flight_rescheduled"
+  },
+  {
+    "event_id": "evt-2026-0019",
+    "event_type": "CUSTOMS_CHECKED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-22T08:00:00+08:00",
+    "version": 5,
+    "summary": "口岸查验：电子证书 cert-origin-0921-02 与实物批次核对一致",
+    "source_system": "customs-edi",
+    "result": "matched"
+  },
+  {
+    "event_id": "evt-2026-0020",
+    "event_type": "CLEARANCE_RELEASED",
+    "aggregate_type": "export_clearance",
+    "aggregate_id": "clearance-0921-01",
+    "occurred_at": "2026-09-22T08:30:00+08:00",
+    "version": 6,
+    "summary": "海关放行",
+    "source_system": "customs-edi"
+  },
+  {
+    "event_id": "evt-2026-0021",
+    "event_type": "SHIPMENT_DISPATCHED",
+    "aggregate_type": "shipment",
+    "aggregate_id": "shipment-0922-01",
+    "occurred_at": "2026-09-22T10:00:00+08:00",
+    "version": 1,
+    "summary": "鲜品 35kg 装机出运，关联清关、舱位与加工批次",
+    "source_system": "freight-booking",
+    "references": [
+      { "aggregate_type": "export_clearance", "aggregate_id": "clearance-0921-01" },
+      { "aggregate_type": "transport_booking", "aggregate_id": "booking-cz389-0922" },
+      { "aggregate_type": "processing_batch", "aggregate_id": "batch-0920-01" }
+    ],
+    "quantity": { "value": 35, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0022",
+    "event_type": "TEMPERATURE_LOGGED",
+    "aggregate_type": "shipment",
+    "aggregate_id": "shipment-0922-01",
+    "occurred_at": "2026-09-22T12:00:00+08:00",
+    "version": 2,
+    "summary": "运输途中冷藏舱温度 1.8°C，正常",
+    "source_system": "coldchain-iot",
+    "celsius": 1.8
+  },
+  {
+    "event_id": "evt-2026-0023",
+    "event_type": "DELIVERY_ACCEPTED",
+    "aggregate_type": "shipment",
+    "aggregate_id": "shipment-0922-01",
+    "occurred_at": "2026-09-23T09:00:00+09:00",
+    "version": 3,
+    "summary": "海外客户签收鲜松茸 35kg，产地与冷链记录可验证（不含具体采集点）",
+    "source_system": "customer-portal",
+    "visibility": "customer",
+    "origin_region": "云南省迪庆藏族自治州香格里拉市",
+    "quantity": { "value": 35, "unit": "kg" }
+  },
+  {
+    "event_id": "evt-2026-0024",
+    "event_type": "SETTLEMENT_RECORDED",
+    "aggregate_type": "settlement",
+    "aggregate_id": "settlement-lot-0920-01",
+    "occurred_at": "2026-09-23T10:00:00+08:00",
+    "version": 1,
+    "summary": "按最终接收 40kg 与采集户结算：5kg 温度超限转冻品、2kg B 级按质量原因计价",
+    "source_system": "settlement-ledger",
+    "references": [
+      { "aggregate_type": "foraged_lot", "aggregate_id": "lot-0920-01" }
+    ],
+    "quantity": { "value": 40, "unit": "kg" },
+    "deductions": [
+      { "reason": "temperature_breach", "quantity": { "value": 5, "unit": "kg" } },
+      { "reason": "grade_below_contract", "quantity": { "value": 2, "unit": "kg" } }
+    ]
+  }
+]

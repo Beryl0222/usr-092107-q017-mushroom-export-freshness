@@ -1,5 +1,5 @@
 [project]
 name = "mushroom-export-freshness"
-version = "0.1.0"
-description = "领域事件基础校验"
+version = "0.2.0"
+description = "野生菌出口鲜度链领域事件契约与校验"
 requires-python = ">=3.11"
